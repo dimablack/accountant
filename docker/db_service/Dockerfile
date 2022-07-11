@@ -1,0 +1,22 @@
+FROM postgres:12-alpine
+LABEL maintainer="dima.black"
+
+ARG USER_APP_DB_SCHEMA
+ARG TRANSACTIONS_APP_DB_SCHEMA
+ARG POSTGRES_USER
+ARG POSTGRES_DB
+ARG POSTGRES_PASSWORD
+
+#RUN mkdir "my_script"
+#COPY run.sh /opt/run.sh
+#RUN /opt/run.sh
+#RUN psql -U postgres;
+#RUN sudo -u postgres -i;
+#RUN sudo -u postgres psql \
+#    CREATE USER $POSTGRES_USER with encrypted password "$POSTGRES_PASSWORD"; \
+#    CREATE DATABASE $POSTGRES_DB; \
+#    GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO $POSTGRES_USER;
+
+#RUN CREATE SCHEMA IF NOT EXISTS $USER_APP_DB_SCHEMA AUTHORIZATION $POSTGRES_USER;
+
+#CMD '/opt/run.sh'

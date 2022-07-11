@@ -8,3 +8,17 @@ MarkupSafe==2.1.1
 pytz==2022.1
 six==1.16.0
 Werkzeug==2.1.2
+Flask-JWT==0.3.2
+importlib-metadata==4.11.4
+PyJWT==1.4.2
+zipp==3.8.0
+Flask-SQLAlchemy==2.5.1
+Flask-Migrate==3.1.0
+psycopg2-binary==2.9.3
+python-dotenv==0.20.0
+apispec==5.2.2
+apispec-webframeworks==0.5.2
+flask-marshmallow==0.14.0
+marshmallow-sqlalchemy==0.28.0
+marshmallow==3.17.0
+Flask-JWT-Extended==3.18.0

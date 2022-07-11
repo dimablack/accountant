@@ -28,5 +28,5 @@ RUN python -m venv /py && \
         django-user
 
 ENV PATH="/py/bin:$PATH"
-ENTRYPOINT ["python"]
-CMD ["app.py"]
+ENV FLASK_APP /app/app.py
+CMD python app.py

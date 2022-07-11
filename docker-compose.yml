@@ -1,65 +1,92 @@
 version: "3.9"
 
 services:
-  user_app_servicex:
+  user_app_service:
+    restart: always
     build:
       context: .
       dockerfile: ./docker/user_app/Dockerfile
     container_name: user_app_container
     ports:
-      - "5555:5555"
+      - "${USER_APP_PORT}:${USER_APP_PORT}"
     volumes:
       - ./src/user_app:/app
+#    command:
+#      python -m flask run
+    env_file:
+        - .env
     environment:
-          - DB_HOST=ua_devdb
-          - DB_NAME=ua_db
-          - DB_USER=postgres
-          - DB_PASSWORD=postgres
+      - PORT=${USER_APP_PORT}
+      - USER_APP_DB_SCHEMA=${USER_APP_DB_SCHEMA}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DATABASE_URI=${DATABASE_URI}
     depends_on:
-      - ua_db
+      - ${DB_HOST}
 
-  ua_db:
-    image: postgres:13-alpine
-    volumes:
-      - ua_postgres-dev-db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=ua_devdb
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+#  transactions_app_service:
+#    restart: always
+#    build:
+#      context: .
+#      dockerfile: ./docker/transactions_app/Dockerfile
+#      args:
+#        - DEV=true
+#    container_name: transactions_app_container
+#    ports:
+#      - "8800:8800"
+#    volumes:
+#      - ./src/transactions_app:/app
+#    command:
+#      #      sh -c "python manage.py wait_for_db &&
+#      sh -c "python manage.py migrate &&
+#      python manage.py runserver 0.0.0.0:8800"
+#    environment:
+#      - DB_HOST=${DB_HOST}
+#      - DB_NAME=dev_db
+#      - DB_USER=postgres
+#      - DB_PASSWORD=postgres
+#    depends_on:
+#      - ${DB_HOST}
 
-  transactions_app_service:
+  db_service:
+    restart: always
     build:
-      context: .
-      dockerfile: ./docker/transactions_app/Dockerfile
+      context: ./docker/db_service
       args:
-        - DEV=true
-    container_name: transactions_app_container
+        - USER_APP_DB_SCHEMA=${USER_APP_DB_SCHEMA}
+        - TRANSACTIONS_APP_DB_SCHEMA=${TRANSACTIONS_APP_DB_SCHEMA}
+#        - POSTGRES_USER=${DB_USER}
+#        - POSTGRES_DB=${DB_NAME}
+#        - POSTGRES_PASSWORD=${DB_PASSWORD}
+    container_name: accounting_db_container
+    volumes:
+      - postgres-dev-db-data:/var/lib/postgresql/data
+#      - ./docker/db_service/run.sh:/run.sh
     ports:
-      - "8800:8800"
-    volumes:
-      - ./src/transactions_app:/app
-    command:
-#      sh -c "python manage.py wait_for_db &&
-      sh -c "python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8800"
+      - '5432:5432'
+#    command: ["./run.sh", "localhost:5432", "postgres"]
     environment:
-      - DB_HOST=ta_db
-      - DB_NAME=ta_devdb
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-    depends_on:
-      - ta_db
-
-  ta_db:
-    image: postgres:13-alpine
-    volumes:
-      - ta_postgres-dev-db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=ta_devdb
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+#      - PGDATA=/var/lib/postgresql/data/pgdata
+#    command:
+#      sh -c "/opt/run.sh"
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U habrpguser -d habrdb" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s
+#      restart: unless-stopped
+#      deploy:
+#        resources:
+#          limits:
+#            cpus: '1'
+#            memory: 4G
 
 
 volumes:
-  ta_postgres-dev-db-data:
-  ua_postgres-dev-db-data:
+  postgres-dev-db-data:
