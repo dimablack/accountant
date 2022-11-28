@@ -1,0 +1,9 @@
+Check if current user is authenticated
+---
+tags:
+  - Users
+security:
+  - Bearer: []
+responses:
+  200:
+    description: Return empty response with status code 200 if user is authenticated

@@ -1,0 +1,41 @@
+Register user into the system
+---
+tags:
+- Users
+operationId: registerUser
+summary: Register the user
+description: Register the user.
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    description: Register the user using the username, email and password
+    required: true
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 255
+          description: User name.
+          example: user_1
+        email:
+          type: string
+          maxLength: 255
+          description: User email.
+          example: user_1@mail.com
+        password:
+          type: string
+          maxLength: 255
+          description: Password.
+          example: '12345678'
+responses:
+  '200':
+    description: Return registered user
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Account created successfully.

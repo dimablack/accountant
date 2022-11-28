@@ -1,0 +1,36 @@
+Login user into the system
+---
+tags:
+- Users
+operationId: loginUser
+summary: Login the user
+description: Login the user.
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    description: Login the user using the username and password
+    required: true
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 255
+          description: Username.
+          example: admin
+        password:
+          type: string
+          maxLength: 255
+          description: Password.
+          example: '123'
+responses:
+  '200':
+    description: Return a jwt token
+    schema:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: eyJ0eXAiOiJKV1QiLCJhbGc...

@@ -77,6 +77,9 @@ u_pip_freeze: ##docker-compose run --rm user_app_service sh -c "python -m pip fr
 
 u_pip_install ARGUMENT: ##docker-compose run --rm user_app_service sh -c "python -m pip install {ARGUMENT}"
 	docker-compose run --rm user_app_service sh -c "pip install flask-migrate && python -m pip freeze"
+	docker-compose run --rm user_app_service sh -c "pip install flasgger && python -m pip freeze"
+	docker-compose run --rm user_app_service sh -c "pip install -U setuptools && python -m pip freeze"
+	docker-compose run --rm user_app_service sh -c "make test"
 
 my_test:
 	ifeq (toto, $(filter toto,$(MAKECMDGOALS)))
@@ -85,4 +88,3 @@ my_test:
 		@echo 'no toto around'
 	endif
 		@echo run command $(if $(filter toto,$(MAKECMDGOALS)),--verbose,--normally)
-

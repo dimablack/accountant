@@ -1,0 +1,47 @@
+Return a user model
+---
+tags:
+  - Users
+operationId: getUserById
+summary: Get the user by id
+description: Get the user by id
+produces:
+  - application/json
+parameters:
+  - name: user_id
+    in: path
+    description: User id
+    required: true
+    schema:
+      name: user_id
+      type: string
+      required: true
+      example: 1
+security:
+  - Bearer: []
+responses:
+  '200':
+    description: Return a single user by id
+    schema:
+      $ref: '#/definitions/User'
+
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: The id of the user
+        example: 1
+      username:
+        type: string
+        description: The name of the user
+        example: admin
+      uuid:
+        type: string
+        description: The uuid of the user
+        example: 6c97bbe6-c197-4dbf-9214-cd693c3a7295
+      email:
+        type: string
+        description: The email of the user
+        example: admin@example.com

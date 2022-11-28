@@ -1,0 +1,14 @@
+Return all user models
+---
+tags:
+  - Users
+operationId: getAllUsers
+summary: Get all user from db
+description: Get all user from db
+produces:
+  - application/json
+security:
+  - Bearer: []
+responses:
+  '200':
+    description: A list of users

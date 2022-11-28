@@ -18,12 +18,7 @@ class UserModel(db.Model):
     }
 
     def __repr__(self):
-        return f'<User {self.name}>'
-
-    # def __init__(self, username, email, password):
-    #     self.username = username
-    #     self.email = email
-    #     self.password = password
+        return f'<User {self.username}>'
 
     def save_to_db(self):
         db.session.add(self)
@@ -47,3 +42,8 @@ class UserModel(db.Model):
     def find_by_id(cls, _id):
         """Find and return User by ID"""
         return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def find_all(cls) -> List["UserModel"]:
+        """Find and return all Users from db"""
+        return cls.query.all()
